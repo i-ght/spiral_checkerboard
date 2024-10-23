@@ -25,10 +25,14 @@ function drawGrid() {
     }
 }
 
-// Function to fill a square based on coordinates
-function fillSquare(x, y, color) {
+// Function to fill a square based on coordinates and outline it
+function fillSquare(x, y, color, outlineColor) {
     ctx.fillStyle = color;
     ctx.fillRect(x * squareSize, y * squareSize, squareSize, squareSize);
+    
+    // Draw the outline
+    ctx.strokeStyle = outlineColor;
+    ctx.strokeRect(x * squareSize, y * squareSize, squareSize, squareSize);
 }
 
 // Draw the grid with labels
@@ -67,28 +71,25 @@ const whites = [
     [7, 5],
     [0, 7],
     [7, 0]
-
 ];
+
 const blacks = [
     [4, 3],
     [3, 4],
-/*     [5, 3],
-    [2, 4], */
-
 ];
 
 const filled = new Set();
 
 for (const [x, y] of blacks) {
-    fillSquare(x, y, "black");
+    fillSquare(x, y, "black", "white"); // Fill black and outline with white
     filled.add(JSON.stringify([x, y]));
 }
 for (const [x, y] of whites) {
-    fillSquare(x, y, "white");
+    fillSquare(x, y, "white", "black"); // Fill white and outline with black
     filled.add(JSON.stringify([x, y]));
 }
 for (const [x, y] of coordinates) {
     if (!filled.has(JSON.stringify([x, y]))) {
-        fillSquare(x, y, "black");
+        fillSquare(x, y, "black", "white"); // Fill remaining squares black and outline with white
     }
 }
